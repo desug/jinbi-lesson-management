@@ -1,0 +1,99 @@
+{
+  // pages 是 uni-app 的页面路由表：数组里第一个页面就是应用默认打开的首页。（这个文件声明所有页面路径，标题和下刷等页面级配置）
+  "pages": [
+    {
+      // 学生登录页，也是当前项目默认入口。
+      "path": "pages/login/index",
+      "style": {
+        "navigationBarTitleText": "学员登录"
+      }
+    },
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "角色选择"
+      }
+    },
+    {
+      "path": "pages/student/home/index",
+      "style": {
+        "navigationBarTitleText": "学员首页"
+      }
+    },
+    {
+      "path": "pages/student/profile/index",
+      "style": {
+        "navigationBarTitleText": "我的资料"
+      }
+    },
+    {
+      "path": "pages/student/records/index",
+      "style": {
+        "navigationBarTitleText": "课时记录"
+      }
+    },
+    {
+      "path": "pages/student/payments/index",
+      "style": {
+        "navigationBarTitleText": "缴费记录"
+      }
+    },
+    {
+      "path": "pages/student/ai/index",
+      "style": {
+        "navigationBarTitleText": "智能助手"
+      }
+    },
+    {
+      "path": "pages/student/gallery/index",
+      "style": {
+        "navigationBarTitleText": "图片查看"
+      }
+    },
+    {
+      "path": "pages/admin/login/index",
+      "style": {
+        "navigationBarTitleText": "管理员登录"
+      }
+    },
+    {
+      "path": "pages/admin/home/index",
+      "style": {
+        "navigationBarTitleText": "管理工作台"
+      }
+    },
+    {
+      // 管理员学生管理页：年级列表、学生列表、添加学生、课时调整都从这里进入。
+      "path": "pages/admin/students/index",
+      "style": {
+        "navigationBarTitleText": "学员管理"
+      }
+    },
+    {
+      "path": "pages/admin/student-detail/index",
+      "style": {
+        "navigationBarTitleText": "学员详情"
+      }
+    },
+    {
+      "path": "pages/admin/adjust-hours/index",
+      "style": {
+        "navigationBarTitleText": "课时调整"
+      }
+    },
+    {
+      "path": "pages/admin/records/index",
+      "style": {
+        "navigationBarTitleText": "全部记录",
+        "enablePullDownRefresh": true
+      }
+    }
+  ],
+  // globalStyle 是所有页面共享的导航栏和背景基础样式。
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "课时管理系统",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#f5f7fb"
+  }
+}

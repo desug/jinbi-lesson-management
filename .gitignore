@@ -1,0 +1,61 @@
+# Frontend
+node_modules/
+dist/
+unpackage/
+.hbuilderx/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+# Python
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
+# Logs and temporary output
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.swp
+# Databases and business exports
+*.db
+*.sqlite
+*.sqlite3
+*.sql
+*.bak
+*.backup
+*.dump
+*.xlsx
+*.xls
+*.csv
+*.tsv
+*.zip
+*.7z
+*.tar
+*.gz

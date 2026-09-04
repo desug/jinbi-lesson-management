@@ -1,0 +1,1 @@
+"""Jinbi backend application package."""
