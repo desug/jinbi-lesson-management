@@ -89,6 +89,8 @@ Set-Location ..
 
 [CI 配置](../.github/workflows/ci.yml)在 push、pull_request 和手动触发时运行两个独立任务：
 
+运行镜像固定为 Ubuntu 24.04，官方 GitHub Actions 固定为已核实的提交 SHA，并使用 Node 24 Action 运行时。应用的 Node 24 与 Python 3.12 分别由 setup-node 和 setup-python 配置。
+
 1. 后端：Python 3.12 + MySQL 8.4，安装依赖快照，pip check，从空库迁移，再执行完整回归和并发测试。JUnit 报告保留 14 天。
 2. 前端：Node 24，执行实际 ES 模块的接口与 Mock 回归，不要求 npm 工程。
 

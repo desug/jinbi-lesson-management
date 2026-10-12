@@ -28,6 +28,8 @@
 | 前端测试 | 6 项通过，0 失败 |
 | 报告 | backend-test-results / backend.xml，CI 保留 14 天；日志和此记录长期可查 |
 
+后续文档提交 [94551b1](https://github.com/desug/jinbi-lesson-management/commit/94551b1eddb022450b5215a1b5836a45fd3ee6cc) 的[复核运行](https://github.com/desug/jinbi-lesson-management/actions/runs/38260153283)同样通过。运行中提示旧 Action Node 运行时弃用，因此工作流随后固定为 Ubuntu 24.04 和已核实的官方 Node 24 Action 提交 SHA。
+
 并发用例初始余额 10，两次各扣 6；一个成功、一个返回余额不足，最终余额 4 且仅新增一条流水。它验证同一学生的这类竞争场景，不能替代负载测试、死锁重试或幂等性验证。
 
 ## 验证发现与修正
