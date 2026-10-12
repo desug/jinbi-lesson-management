@@ -1,0 +1,22 @@
+[Unit]
+Description=Jinbi lesson management API
+After=network.target
+
+[Service]
+Type=simple
+User=jinbi
+Group=jinbi
+WorkingDirectory=/srv/jinbi/current/backend
+ExecStart=/srv/jinbi/current/.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 2 --root-path /api --proxy-headers --forwarded-allow-ips 127.0.0.1
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+Environment=PYTHONDONTWRITEBYTECODE=1
+
+[Install]
+WantedBy=multi-user.target

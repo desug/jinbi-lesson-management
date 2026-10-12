@@ -4,8 +4,13 @@ import {
   adjustStudentHoursMock,
   createAdminStudentMock,
   deleteAdminStudentMock,
-  upgradeAdminStudentGradeMock
+  upgradeAdminStudentGradeMock,
+  getAdminStudentsMock,
+  getAdminGradesMock,
+  getGradeStudentsMock,
+  getAdminStudentDetailMock
 } from '@/mock/admin'
+import { getAdminRecordsMock } from '@/mock/record'
 import {
   buildAdminHomeData,
   buildAdminStudentDetailData,
@@ -67,7 +72,8 @@ export const getAdminStudents = async function(params) {
   const res = await request({
     url: '/admin/students',
     method: 'GET',
-    data: query
+    data: query,
+    mock: getAdminStudentsMock
   })
 
   const sourceList = pickStudentItems(res.data)
@@ -83,7 +89,8 @@ export const getAdminStudents = async function(params) {
 export const getAdminGrades = async function() {
   const res = await request({
     url: '/admin/grades',
-    method: 'GET'
+    method: 'GET',
+    mock: getAdminGradesMock
   })
 
   const source = res.data || {}
@@ -102,7 +109,8 @@ export const getGradeStudents = async function(grade, params) {
   const res = await request({
     url: '/admin/grades/' + encodeURIComponent(grade) + '/students',
     method: 'GET',
-    data: query
+    data: query,
+    mock: getGradeStudentsMock
   })
 
   const sourceList = pickStudentItems(res.data)
@@ -119,7 +127,8 @@ export const getGradeStudents = async function(grade, params) {
 export const getAdminHome = async function() {
   const studentsRes = await request({
     url: '/admin/students',
-    method: 'GET'
+    method: 'GET',
+    mock: getAdminStudentsMock
   })
   const sourceList = pickStudentItems(studentsRes.data)
 
@@ -188,7 +197,8 @@ export const getAdminStudentDetail = async function(studentIdOrPayload) {
     method: 'GET',
     data: {
       id: studentId
-    }
+    },
+    mock: getAdminStudentDetailMock
   })
 
   const profile = res.data.profile || res.data
@@ -201,7 +211,10 @@ export const getAdminStudentDetail = async function(studentIdOrPayload) {
 export const getAdminStudentRecords = async function(studentId) {
   const res = await request({
     url: '/admin/students/' + studentId + '/records',
-    method: 'GET'
+    method: 'GET',
+    mock: function(payload) {
+      return getAdminRecordsMock(Object.assign({}, payload, { data: { id: studentId } }))
+    }
   })
 
   const sourceList = pickRecordList(res)

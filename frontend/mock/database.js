@@ -354,9 +354,8 @@ export const buildStudentProfile = function(student) {
     adviser: student.adviser,
     classType: student.classType,
     classTypeText: getClassTypeText(student.classType),
-    subjects: (student.subjects || []).map(function(item) {
-      return item.subjectName || item.subject
-    })
+    totalRemainingHours: getStudentSummary(student).remainingHours,
+    subjects: getSubjectCards(student.subjects)
   }
 }
 
@@ -387,11 +386,7 @@ export const getAdminStudentList = function(keyword, classType) {
         classTypeText: getClassTypeText(item.classType),
         remainingHours: summary.remainingHours,
         deductedHours: summary.deductedHours,
-        subjects: item.subjects
-          .map(function(subjectItem) {
-            return subjectItem.subjectName || subjectItem.subject
-          })
-          .join('、'),
+        subjects: getSubjectCards(item.subjects),
         subjectOverview: subjectOverview
       }
     })

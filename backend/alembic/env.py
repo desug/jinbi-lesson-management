@@ -14,6 +14,7 @@ if str(BASE_DIR) not in sys.path:
 from app.core.config import settings
 from app.core.database import Base
 import app.models  # noqa: F401
+import app.core.migrations  # noqa: F401 - registers the MySQL version table implementation
 
 
 config = context.config
@@ -21,7 +22,8 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-config.set_main_option("sqlalchemy.url", settings.database_url)
+# ConfigParser treats percent signs as interpolation; URL-encoded passwords use them.
+config.set_main_option("sqlalchemy.url", settings.database_url.replace("%", "%%"))
 
 target_metadata = Base.metadata
 

@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: lesson_test
+          MYSQL_USER: lesson_test_user
+          MYSQL_PASSWORD: ci-only-database-password
+          MYSQL_ROOT_PASSWORD: ci-only-root-password
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      APP_ENV: test
+      DEBUG: "false"
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PORT: "3306"
+      MYSQL_USER: lesson_test_user
+      MYSQL_PASSWORD: ci-only-database-password
+      MYSQL_DB: lesson_test
+      JWT_SECRET_KEY: ci-only-signing-key-not-for-deployment
+      DEEPSEEK_API_KEY: ""
+      JINBI_TEST_DATABASE_URL: mysql+pymysql://lesson_test_user:ci-only-database-password@127.0.0.1:3306/lesson_test?charset=utf8mb4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements-lock.txt
+      - name: Install tested dependency snapshot
+        run: python -m pip install -r backend/requirements-lock.txt
+      - name: Check dependency compatibility
+        run: python -m pip check
+      - name: Migrate empty MySQL database
+        working-directory: backend
+        run: |
+          python -m alembic upgrade head
+          python -m alembic current
+      - name: API, transaction and MySQL concurrency tests
+        run: python -m pytest -q --junitxml=test-results/backend.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-test-results
+          path: test-results/backend.xml
+          if-no-files-found: ignore
+          retention-days: 14
+
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Frontend API and Mock contract tests
+        run: node --experimental-vm-modules --test tests/frontend/flows.test.mjs

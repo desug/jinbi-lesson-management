@@ -1,4 +1,4 @@
-import { getAdminByAccount, getStudentByPhone } from '@/mock/database'
+import { buildStudentProfile, getAdminByAccount, getStudentByPhone } from '@/mock/database'
 
 const success = function(data, message) {
   return {
@@ -29,15 +29,7 @@ export const studentLoginMock = function(payload) {
     {
       token: 'student-token-' + student.id,
       role: 'student',
-      userInfo: {
-        id: student.id,
-        name: student.name,
-        phone: student.phone,
-        grade: student.grade,
-        campus: student.campus,
-        classType: student.classType,
-        classTypeText: student.classType === 'vip' ? 'VIP' : '小班'
-      }
+      user: buildStudentProfile(student)
     },
     '登录成功'
   )
@@ -45,7 +37,7 @@ export const studentLoginMock = function(payload) {
 
 export const adminLoginMock = function(payload) {
   const data = payload.data || {}
-  const admin = getAdminByAccount(data.account, data.password)
+  const admin = getAdminByAccount(data.username || data.account, data.password)
 
   if (!admin) {
     return fail('账号或密码不正确')
@@ -55,8 +47,10 @@ export const adminLoginMock = function(payload) {
     {
       token: 'admin-token-' + admin.id,
       role: 'admin',
-      userInfo: {
+      admin: {
         id: admin.id,
+        username: admin.account,
+        role: 'admin',
         name: admin.name,
         campus: admin.campus,
         position: admin.position
