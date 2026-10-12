@@ -17,7 +17,18 @@
 
 ## MySQL 持续集成
 
-新增 CI 使用 Linux、Python 3.12、MySQL 8.4，先执行 Alembic 迁移，再运行 API、事务回滚和真实数据库并发扣课。提交后的实际运行链接与结果将在确认后记录；配置文件存在本身不算测试通过。
+验证对象：[db189e6](https://github.com/desug/jinbi-lesson-management/commit/db189e6e7c4a0210bbb0173c22f6d9fae43c1d18)。实际运行：[CI #38259687479](https://github.com/desug/jinbi-lesson-management/actions/runs/38259687479)，结论 success。本记录在后续文档提交中保存。
+
+| 项目 | 实际结果 |
+| --- | --- |
+| 后端环境 | Linux、Python 3.12、MySQL 8.4，一次性 CI 数据库 |
+| 依赖兼容性 | pip check 通过 |
+| 数据库迁移 | 空库依次执行四个既有版本，达到 20260503_add_student_school_class_types |
+| 后端测试 | 23 项通过，0 失败、0 错误、0 跳过；包含 MySQL 并发扣课与迁移结构检查 |
+| 前端测试 | 6 项通过，0 失败 |
+| 报告 | backend-test-results / backend.xml，CI 保留 14 天；日志和此记录长期可查 |
+
+并发用例初始余额 10，两次各扣 6；一个成功、一个返回余额不足，最终余额 4 且仅新增一条流水。它验证同一学生的这类竞争场景，不能替代负载测试、死锁重试或幂等性验证。
 
 ## 验证发现与修正
 
